@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // test
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //==================Apache POI==================//
+    // Apache POI 기본 라이브러리 의존성 추가
+    // 이 라이브러리는 Microsoft Office의 오래된 파일 포맷(.xls, .doc, .ppt 등)을 처리하는데 사용됩니다.
+    implementation('org.apache.poi:poi:4.1.2')
+
+    // Apache POI OOXML 모듈 의존성 추가
+    // 이 모듈은 Microsoft Office 2007 이후 버전에서 사용되는 OOXML 포맷(.xlsx, .docx, .pptx 등)을 처리하는데 필요합니다.
+    // poi-ooxml 모듈은 poi 기본 라이브러리를 확장하여, OOXML 관련 기능을 제공합니다.
+    implementation('org.apache.poi:poi-ooxml:4.1.2')
+
+    // FileUtils 의존성
+    implementation('commons-io:commons-io:2.11.0')
+    //==================Apache POI==================//
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
